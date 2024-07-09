@@ -1,6 +1,7 @@
 import React from 'react'
 import { useState } from 'react'
 import {useCookies} from 'react-cookie'
+import { url } from '../utils'
 const Auth = () => {
   const [isLogIn,setIsLogin]=useState(true)
   const [cookies,setCookie,removeCookie]=useCookies(null)
@@ -21,19 +22,19 @@ const Auth = () => {
  
   try{
     console.log('it is in the try block')
-    const res=await fetch(`${process.env.REACT_APP_BASE_URI}/${route}`,{
+    const res=await fetch(`${url}/login`,{
       method:'POST',
       headers:{'Content-Type':'application/json'},
       body:JSON.stringify({email,password})
     })
     const data=await res.json()
     console.log(data)
-    if(data.detail){
-      setError(data.detail)
+    if(data.err){
+      setError(data.err)
     }
     else{
-      setCookie('EMAIL',data.email)
-      setCookie('TOKEN',data.token)
+      localStorage.setItem("EMAIL",data.user.email);
+      localStorage.setItem("TOKEN",data.token)
       window.location.reload();
     }
   }

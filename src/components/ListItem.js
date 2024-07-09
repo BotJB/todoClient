@@ -10,7 +10,7 @@ const ListItem = ({task,getData}) => {
     e.preventDefault()
     console.log('this method was triggred')
    try{
-    const response=await fetch(`${process.env.REACT_APP_BASE_URI}/todos/${task.id}`,{
+    const response=await fetch(`${process.env.REACT_APP_BASE_URI}/todos/${task._id}`,{
           method:'DELETE',
           headers:{'Content-Type':'application/json'},
           

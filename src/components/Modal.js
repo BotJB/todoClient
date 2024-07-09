@@ -1,10 +1,10 @@
 import React,{useState} from 'react'
 import { useCookies } from 'react-cookie'
+import {url} from "../utils.js";
 const Modal = ({mode,setDisplayModal,task,getData}) => {
-    const [cookies,setCookie,removeCookie]=useCookies(null)
     const editMode=mode==='edit'?true:false
     const [data,setData]=useState({
-        email:task?task.email:cookies.EMAIL,
+        email:task?task.email:localStorage.getItem("EMAIL"),
         title:task?task.title:null,
         progress:task?task.progress:"50",
         date:editMode?task.date:new Date()
@@ -16,8 +16,9 @@ const Modal = ({mode,setDisplayModal,task,getData}) => {
     //this is to post data to the server
 
     const postData=async(e)=>{
+      console.log()
       e.preventDefault()
-const res=await fetch(`${process.env.REACT_APP_BASE_URI}/todos`,{
+const res=await fetch(`${url}/todos`,{
   method:"POST",
  headers:{'Content-Type':'application/json'},
  body:JSON.stringify(data)
@@ -34,7 +35,8 @@ if(res.status===200){
 
       e.preventDefault()
       try{
-        const response=await fetch(`${process.env.REACT_APP_BASE_URI}/todos/${task.id}`,{
+        const response=await fetch(`${url}/todos/${task._id}`,{
+
           method:'PUT',
           headers:{'Content-Type':'application/json'},
           body:JSON.stringify(data)
